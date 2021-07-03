@@ -31,9 +31,9 @@ public class Menu implements Serializable {
     @Column(name = "modified_date")
     private Timestamp modifiedDate;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private Set<Item> menuItems;
+    @OneToMany(cascade = CascadeType.ALL)
+    //@JsonManagedReference
+    private Set<Item> menuItems;
 
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(columnDefinition = "store_id")

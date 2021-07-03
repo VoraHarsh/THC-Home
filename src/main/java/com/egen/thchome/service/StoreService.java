@@ -8,9 +8,11 @@ import java.util.List;
 public interface StoreService {
 
     Boolean createStore(Store store);
+    Boolean updateStore(Store store);
+    Boolean deleteStore(String id);
     Store getStoreById(String id);
     public List<Store> getAllStores();
-    public List<CustomerOrder> getStoreOrders();
+    public List<CustomerOrder> getStoreOrders(String storeId);
 
 
 }

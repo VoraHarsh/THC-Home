@@ -1,109 +1,99 @@
 package com.egen.thchome.controllers;
 
-import com.egen.thchome.entity.CustomerOrder;
-import com.egen.thchome.entity.Store;
+import com.egen.thchome.entity.Menu;
 import com.egen.thchome.response.Response;
 import com.egen.thchome.response.ResponseMetadata;
 import com.egen.thchome.response.StatusMessage;
-import com.egen.thchome.service.StoreService;
+import com.egen.thchome.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/stores")
-public class StoreController {
+@RequestMapping(value = "/menus")
+public class MenuController {
 
-    StoreService storeService;
+    MenuService menuService;
 
     @Autowired
-    public StoreController(StoreService storeService){
-        this.storeService = storeService;
+    public MenuController(MenuService menuService){
+        this.menuService = menuService;
     }
 
     @GetMapping(produces = "application/json")
-    public Response<List<Store>> getAllStores(){
-        return Response.<List<Store>>builder()
+    public Response<List<Menu>> getAllMenus(){
+        return Response.<List<Menu>>builder()
                 .meta(ResponseMetadata.builder()
                         .statusCode(200)
                         .statusMessage(StatusMessage.SUCCESS.name()).build())
-                .data(storeService.getAllStores())
+                .data(menuService.getAllMenus())
                 .build();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    public Response<Store> getStoreById(@PathVariable("id") String id){
-        return Response.<Store>builder()
+    public Response<Menu> getMenuById(@PathVariable("id") String id){
+        return Response.<Menu>builder()
                 .meta(ResponseMetadata.builder()
                         .statusCode(200)
                         .statusMessage(StatusMessage.SUCCESS.name()).build())
-                .data(storeService.getStoreById(id))
+                .data(menuService.getMenuById(id))
                 .build();
     }
 
-    @PostMapping( value = "/createStore" , consumes = "application/json", produces = "application/json")
-    public Response<String> createStore(@RequestBody Store store){
-        return storeService.createStore(store) == Boolean.TRUE ?
+    @PostMapping( value = "/createMenu", consumes = "application/json", produces = "application/json")
+    public Response<String> createMenu(@RequestBody Menu menu){
+        return menuService.createMenu(menu) == Boolean.TRUE ?
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.SUCCESS.name()).build())
-                        .data("Store Created")
+                        .data("Menu Created")
                         .build()
                 :
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.UNKNOWN_INTERNAL_ERROR.name()).build())
-                        .data("Store Not Created")
+                        .data("Menu Not Created")
                         .build();
     }
 
     @PutMapping(value = "/update", consumes = "application/json", produces = "application/json")
-    public Response<String> updateStore(@RequestBody Store store){
-        return storeService.updateStore(store) == Boolean.TRUE ?
+    public Response<String> updateMenu(@RequestBody Menu menu){
+        return menuService.updateMenu(menu) == Boolean.TRUE ?
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.SUCCESS.name()).build())
-                        .data("Store Updated")
+                        .data("Menu Updated")
                         .build()
                 :
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.UNKNOWN_INTERNAL_ERROR.name()).build())
-                        .data("Store Not Updated")
+                        .data("Menu Not Updated")
                         .build();
     }
 
-    @PostMapping(value = "/delete/{id}", consumes = "application/json", produces = "application/json")
-    public Response<String>deleteStore(@PathVariable String id){
-        return storeService.deleteStore(id) == Boolean.TRUE ?
+    @PostMapping(value = "/delete/{id}")
+    public Response<String>deleteMenu(@PathVariable String id){
+        return menuService.deleteMenu(id) == Boolean.TRUE ?
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.SUCCESS.name()).build())
-                        .data("Store Deleted")
+                        .data("Menu Deleted")
                         .build()
                 :
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.UNKNOWN_INTERNAL_ERROR.name()).build())
-                        .data("Store Could not be Deleted")
+                        .data("Menu Could not be Deleted")
                         .build();
     }
 
-    @GetMapping(value = "/storeOrders/{storeId}", produces = "application/json")
-    public Response<List<CustomerOrder>>getStoreOrders(@PathVariable("storeId") String storeId){
-        return Response.<List<CustomerOrder>>builder()
-                .meta(ResponseMetadata.builder()
-                        .statusCode(200)
-                        .statusMessage(StatusMessage.SUCCESS.name()).build())
-                .data(storeService.getStoreOrders(storeId))
-                .build();
-    }
 
 }
