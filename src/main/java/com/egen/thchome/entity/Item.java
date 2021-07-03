@@ -2,6 +2,7 @@ package com.egen.thchome.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +13,8 @@ import java.io.Serializable;
 public class Item implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String itemId;
 
     @Column(name = "item_name")
@@ -27,8 +29,8 @@ public class Item implements Serializable {
     @Column(name = "item_quantity")
     private int itemQuantity;
 
-    @ManyToOne
-    @JoinColumn(columnDefinition = "menu_id")
-    @JsonBackReference
-    private Menu menu;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(columnDefinition = "menu_id")
+//    @JsonBackReference
+//    private Menu menu;
 }

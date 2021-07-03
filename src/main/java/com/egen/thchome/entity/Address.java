@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -14,7 +15,8 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "address_id")
     private String addressId;
 
@@ -27,15 +29,15 @@ public class Address {
     @Column(name = "zip")
     private Integer zip;
 
-    @Column(name = "addressLine1")
+    @Column(name = "address_line1")
     private String addressLine1;
 
-    @Column(name = "addressLine2")
+    @Column(name = "address_line2")
     private String addressLine2;
 
-    @OneToOne
-    @JoinColumn(columnDefinition = "store_id")
-    @JsonBackReference
-    private Store store;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(columnDefinition = "store_id")
+//    @JsonBackReference
+//    private Store store;
 
 }

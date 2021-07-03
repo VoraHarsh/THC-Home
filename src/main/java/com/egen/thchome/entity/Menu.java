@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +21,8 @@ public class Menu implements Serializable {
 
     @Id
     @Column(name = "menu_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String menuId;
 
     @Column(name = "created_date")
@@ -29,13 +31,13 @@ public class Menu implements Serializable {
     @Column(name = "modified_date")
     private Timestamp modifiedDate;
 
-    @OneToMany
-    @JsonManagedReference
-    private Set<Item> menuItems;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private Set<Item> menuItems;
 
-    @OneToOne
-    @JoinColumn(columnDefinition = "store_id")
-    @JsonBackReference
-    private Store store;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(columnDefinition = "store_id")
+//    @JsonBackReference
+//    private Store store;
 
 }

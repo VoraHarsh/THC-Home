@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,7 +18,8 @@ import java.util.Set;
 public class CustomerOrder implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "order_id")
     private String orderId;
 
@@ -30,12 +32,12 @@ public class CustomerOrder implements Serializable {
     @Column(name = "tax")
     private double tax;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Item> items;
 
-    @ManyToOne
-    @JoinColumn(columnDefinition = "store_id")
-    @JsonBackReference
-    private Store store;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(columnDefinition = "store_id")
+//    @JsonBackReference
+//    private Store store;
 
 }
