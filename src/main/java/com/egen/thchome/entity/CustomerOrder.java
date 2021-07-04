@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
@@ -34,6 +35,9 @@ public class CustomerOrder implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Item> items;
+
+    @Column(name = "created_date")
+    private Timestamp orderCreatedDate;
 
 //    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(columnDefinition = "store_id")

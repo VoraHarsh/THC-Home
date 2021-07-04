@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -29,6 +30,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Boolean createMenu(Menu menu) {
         try{
+            menu.setCreatedDate(new Timestamp(System.currentTimeMillis()));
             menuRepository.save(menu);
             return true;
         }
@@ -41,12 +43,12 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Boolean updateMenu(Menu menu) {
         try{
-            System.out.println(menu);
             Menu existingMenu = menuRepository.findMenuByMenuId(menu.getMenuId());
             if(existingMenu == null){
                 throw new MenuServiceException("Menu does not exist");
             }
             else{
+                menu.setModifiedDate(new Timestamp(System.currentTimeMillis()));
                 menuRepository.save(menu);
                 return true;
             }
