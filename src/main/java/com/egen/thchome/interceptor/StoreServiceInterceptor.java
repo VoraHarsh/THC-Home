@@ -31,6 +31,8 @@ public class StoreServiceInterceptor implements HandlerInterceptor {
         log.info("In preHandle method");
         System.out.println("In preHandle Method");
         startTime = new Timestamp(System.currentTimeMillis());
+        String url = request.getRequestURI();
+        System.out.println(url);
         return true;
     }
 

@@ -5,6 +5,9 @@ import com.egen.thchome.response.Response;
 import com.egen.thchome.response.ResponseMetadata;
 import com.egen.thchome.response.StatusMessage;
 import com.egen.thchome.service.InterceptorService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +27,12 @@ public class InterceptorController {
         this.interceptorService = interceptorService;
     }
 
+
     @GetMapping("/{methodName}")
+    @ApiOperation(value  = "Returns the list of Api Execution Time given the name of method")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
+            @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
+    })
     public Response<List<Interceptor>> getApiExecutionTime(@PathVariable("methodName") String methodName){
         return Response.<List<Interceptor>>builder()
                 .meta(ResponseMetadata.builder()
