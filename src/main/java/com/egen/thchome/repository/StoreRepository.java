@@ -10,12 +10,9 @@ import java.util.List;
 
 public interface StoreRepository extends JpaRepository<Store, String> {
 
-    Store findStoreByStoreId(String id);
+    Store findByStoreId(String id);
 
     @Query("SELECT store.orders FROM Store store WHERE store.storeId=:storeId")
     List<CustomerOrder> findStoreOrders(String storeId);
-
-//    @Query("SELECT store.orders FROM Store store WHERE store.storeId=:storeId AND store.orderCreatedDate>=:startTime")
-//    List<CustomerOrder> findStoreOrdersBasedOnTime(String storeId, Timestamp startTime);
 
 }

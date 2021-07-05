@@ -14,6 +14,6 @@ public interface StoreService {
     Store getStoreById(String id);
     public List<Store> getAllStores();
     public List<CustomerOrder> getStoreOrders(String storeId);
-
+    public List<CustomerOrder> getStoreOrdersBasedOnTime(String storeId);
 
 }

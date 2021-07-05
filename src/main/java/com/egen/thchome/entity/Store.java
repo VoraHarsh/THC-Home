@@ -30,15 +30,15 @@ public class Store implements Serializable {
     //@JsonManagedReference
     private Address address;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //@JsonManagedReference
     private Set<Reservation> reservation;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //@JsonManagedReference
     private Set<CustomerOrder> orders;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //@JsonManagedReference
     private Menu menu;
 

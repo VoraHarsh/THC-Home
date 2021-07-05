@@ -105,7 +105,7 @@ class StoreServiceImplTest {
 
         Mockito.when(storeRepository.findAll())
                 .thenReturn(Collections.singletonList(createStore));
-        Mockito.when(storeRepository.findStoreByStoreId(createStore.getStoreId()))
+        Mockito.when(storeRepository.findByStoreId(createStore.getStoreId()))
                 .thenReturn(createStore);
         Mockito.when(storeRepository.findStoreOrders(createStore.getStoreId()))
                 .thenReturn(Collections.singletonList(order));

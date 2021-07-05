@@ -33,7 +33,7 @@ public class CustomerOrder implements Serializable {
     @Column(name = "tax")
     private double tax;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Item> items;
 
     @Column(name = "created_date")

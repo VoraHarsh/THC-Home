@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -28,6 +30,12 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Boolean createStore(Store store) {
         try{
+
+            Set<CustomerOrder> orderSet = store.getOrders();
+
+            for(CustomerOrder order : orderSet){
+                order.setOrderCreatedDate(new Timestamp(System.currentTimeMillis()));
+            }
             storeRepository.save(store);
             return true;
         }
@@ -40,7 +48,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Boolean updateStore(Store store) {
         try{
-            Store existingStore = storeRepository.findStoreByStoreId(store.getStoreId());
+            Store existingStore = storeRepository.findByStoreId(store.getStoreId());
             if(existingStore == null){
                 throw new StoreServiceException("Store does not exist");
             }
@@ -58,7 +66,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Boolean deleteStore(String id) {
         try{
-            Store existingStore = storeRepository.findStoreByStoreId(id);
+            Store existingStore = storeRepository.findByStoreId(id);
             if(existingStore == null){
                 throw new StoreServiceException("Store not found");
             }
@@ -76,7 +84,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Store getStoreById(String id) {
         try {
-            Store store = storeRepository.findStoreByStoreId(id);
+            Store store = storeRepository.findByStoreId(id);
             return store;
         }
         catch (Exception e){
@@ -100,7 +108,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public List<CustomerOrder> getStoreOrders(String storeId) {
         try{
-            Store existingStore = storeRepository.findStoreByStoreId(storeId);
+            Store existingStore = storeRepository.findByStoreId(storeId);
             if(existingStore == null){
                 throw new StoreServiceException("Store does not exist");
             }
@@ -114,5 +122,36 @@ public class StoreServiceImpl implements StoreService {
             throw new StoreServiceException(e.getMessage());
         }
     }
+
+    @Override
+    public List<CustomerOrder> getStoreOrdersBasedOnTime(String storeId) {
+        try{
+            Store existingStore = storeRepository.findByStoreId(storeId);
+            if(existingStore == null){
+                throw new StoreServiceException("Store does not exist");
+            }
+            else{
+                List<CustomerOrder> orderList= storeRepository.findStoreOrders(storeId);
+                List<CustomerOrder> finalList = new ArrayList<>();
+
+                Timestamp yesterdayTime = new Timestamp(System.currentTimeMillis() - (1000L * 60L * 60L * 24L));
+
+                for(CustomerOrder order : orderList) {
+                    if (order.getOrderCreatedDate().after(yesterdayTime)) {
+                        finalList.add(order);
+                    }
+                }
+                if(finalList.isEmpty()){
+                    throw new StoreServiceException("There are no New Orders");
+                }
+                return finalList;
+            }
+        }
+        catch (Exception e){
+            log.error("Error occurred in getting all the Store Orders Based on Time: " + e.getMessage());
+            throw new StoreServiceException(e.getMessage());
+        }
+    }
+
 
 }
