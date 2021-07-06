@@ -1,0 +1,24 @@
+version: '3.1'
+services:
+  app:
+    container_name: thc-home-mysql
+    image: thc-home-mysql
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/thc_home?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1234
+
+  db:
+    image: 'mysql'
+    container_name: db
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=root
+      - MYSQL_DB=order1234
