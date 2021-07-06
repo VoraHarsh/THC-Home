@@ -1,6 +1,6 @@
 package com.egen.thchome.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.egen.thchome.enums.ReservationStatus;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,8 +27,11 @@ public class Reservation implements Serializable {
     @Column(name = "end_time")
     private Timestamp endTime;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(columnDefinition = "store_id")
-//    @JsonBackReference
-//    private Store store;
+    @Column(name = "created_date")
+    private Timestamp reservationCreated;
+
+    @Column(name = "reservation_status")
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus;
+
 }

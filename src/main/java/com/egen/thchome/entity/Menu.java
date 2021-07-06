@@ -1,8 +1,6 @@
 package com.egen.thchome.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.egen.thchome.enums.MenuStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,13 +29,12 @@ public class Menu implements Serializable {
     @Column(name = "modified_date")
     private Timestamp modifiedDate;
 
+    @Column(name = "menu_status")
+    @Enumerated(EnumType.STRING)
+    private MenuStatus menuStatus;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //@JsonManagedReference
     private Set<Item> menuItems;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(columnDefinition = "store_id")
-//    @JsonBackReference
-//    private Store store;
 
 }

@@ -1,6 +1,5 @@
 package com.egen.thchome.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -29,8 +28,4 @@ public class Item implements Serializable {
     @Column(name = "item_quantity")
     private int itemQuantity;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(columnDefinition = "menu_id")
-//    @JsonBackReference
-//    private Menu menu;
 }

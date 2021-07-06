@@ -44,13 +44,24 @@ public class StoreServiceInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
         System.out.println("In afterCompletion Method");
+        String controllerName="";
+        String actionName="";
 
         endTime = new Timestamp(System.currentTimeMillis());
 
         Interceptor interceptor = new Interceptor();
         interceptor.setStartTime(startTime);
         interceptor.setEndTime(endTime);
-        interceptor.setMethodName(handler.toString());
+        if(handler instanceof HandlerMethod){
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            controllerName = handlerMethod.getBeanType().getSimpleName();
+            actionName = handlerMethod.getMethod().getName();
+        }
+
+        System.out.println(controllerName);
+        System.out.println(actionName);
+
+        interceptor.setMethodName(actionName);
 
         interceptor.setExecutionTime(endTime.getTime() - startTime.getTime());
 

@@ -1,7 +1,10 @@
 package com.egen.thchome.service.impl;
 
 import com.egen.thchome.entity.Menu;
+import com.egen.thchome.entity.Store;
+import com.egen.thchome.enums.MenuStatus;
 import com.egen.thchome.exception.MenuServiceException;
+import com.egen.thchome.exception.StoreServiceException;
 import com.egen.thchome.repository.MenuRepository;
 import com.egen.thchome.repository.StoreRepository;
 import com.egen.thchome.service.MenuService;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -28,10 +32,19 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Boolean createMenu(Menu menu) {
+    public Boolean createMenu(String storeId, Menu menu) {
         try{
             menu.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-            menuRepository.save(menu);
+            Store store = storeRepository.findByStoreId(storeId);
+
+            if(store == null){
+                throw new StoreServiceException("Store does not exist");
+            }
+
+            Set<Menu> existingMenus = store.getMenu();
+            existingMenus.add(menu);
+            store.setMenu(existingMenus);
+            storeRepository.save(store);
             return true;
         }
         catch(Exception e){
@@ -43,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Boolean updateMenu(Menu menu) {
         try{
-            Menu existingMenu = menuRepository.findMenuByMenuId(menu.getMenuId());
+            Menu existingMenu = menuRepository.findByMenuId(menu.getMenuId());
             if(existingMenu == null){
                 throw new MenuServiceException("Menu does not exist");
             }
@@ -62,16 +75,12 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Boolean deleteMenu(String id) {
         try{
-            Menu existingMenu = menuRepository.findMenuByMenuId(id);
+            Menu existingMenu = menuRepository.findByMenuId(id);
             if(existingMenu == null){
                 throw new MenuServiceException("Menu not found");
             }
             else{
-//                List<Store> storeList = storeRepository.findByMenu(existingMenu);
-//                for(Store store : storeList){
-//                    store.setMenu(null);
-//                }
-//                storeRepository.save(storeList);
+                existingMenu.setMenuStatus(MenuStatus.DEACTIVATED);
                 menuRepository.save(existingMenu);
                 return true;
             }
@@ -85,7 +94,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu getMenuById(String id) {
         try {
-            Menu menu = menuRepository.findMenuByMenuId(id);
+            Menu menu = menuRepository.findByMenuId(id);
             return menu;
         }
         catch (Exception e){

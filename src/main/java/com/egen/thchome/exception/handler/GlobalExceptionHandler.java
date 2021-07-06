@@ -1,6 +1,7 @@
 package com.egen.thchome.exception.handler;
 
 import com.egen.thchome.exception.MenuServiceException;
+import com.egen.thchome.exception.ReservationServiceException;
 import com.egen.thchome.exception.StoreServiceException;
 import com.egen.thchome.response.Response;
 import com.egen.thchome.response.ResponseMetadata;
@@ -26,6 +27,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MenuServiceException.class)
     public ResponseEntity<Response<?>> handleMenuServiceException(MenuServiceException e){
+        return buildResponse(StatusMessage.UNKNOWN_INTERNAL_ERROR, INTERNAL_SERVER_ERROR, e.getMessage());
+    }
+
+    @ExceptionHandler(ReservationServiceException.class)
+    public ResponseEntity<Response<?>> handleReservationServiceException(ReservationServiceException e){
         return buildResponse(StatusMessage.UNKNOWN_INTERNAL_ERROR, INTERNAL_SERVER_ERROR, e.getMessage());
     }
 

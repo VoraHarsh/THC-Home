@@ -100,12 +100,12 @@ public class StoreController {
                         .build();
     }
 
-    @PostMapping(value = "/delete/{id}", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/delete/{id}")
     @ApiOperation(value  = "Delete Stores")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<String>deleteStore(@PathVariable String id){
+    public Response<String> deleteStore(@PathVariable("id") String id){
         return storeService.deleteStore(id) == Boolean.TRUE ?
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()

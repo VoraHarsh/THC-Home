@@ -1,6 +1,5 @@
 package com.egen.thchome.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,10 +37,5 @@ public class CustomerOrder implements Serializable {
 
     @Column(name = "created_date")
     private Timestamp orderCreatedDate;
-
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(columnDefinition = "store_id")
-//    @JsonBackReference
-//    private Store store;
 
 }

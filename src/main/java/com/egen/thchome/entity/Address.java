@@ -1,5 +1,4 @@
 package com.egen.thchome.entity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,9 +34,5 @@ public class Address {
     @Column(name = "address_line2")
     private String addressLine2;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(columnDefinition = "store_id")
-//    @JsonBackReference
-//    private Store store;
 
 }

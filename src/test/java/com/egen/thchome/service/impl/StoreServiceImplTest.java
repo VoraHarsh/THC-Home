@@ -40,7 +40,8 @@ class StoreServiceImplTest {
     Store createStore = new Store();
     CustomerOrder order = new CustomerOrder();
     Set<Item> set = new HashSet<>();
-    Set<Item> menuSet = new HashSet<>();
+    Set<Item> itemSet = new HashSet<>();
+    Set<Menu> menuSet = new HashSet<>();
     Set<CustomerOrder> orderSet = new HashSet<>();
     Set<Reservation> reservationSet = new HashSet<>();
 
@@ -75,8 +76,8 @@ class StoreServiceImplTest {
         set.add(items);
         set.add(items1);
 
-        menuSet.add(items);
-        menuSet.add(items1);
+        itemSet.add(items);
+        itemSet.add(items1);
 
 
         order.setOrderId("o1");
@@ -92,8 +93,9 @@ class StoreServiceImplTest {
         menu.setMenuId("M1");
         menu.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         menu.setModifiedDate(new Timestamp(System.currentTimeMillis()));
-        menu.setMenuItems(menuSet);
-        createStore.setMenu(menu);
+        menu.setMenuItems(itemSet);
+        menuSet.add(menu);
+        createStore.setMenu(menuSet);
 
         Reservation reservation = new Reservation();
         reservation.setReservationId("R1");

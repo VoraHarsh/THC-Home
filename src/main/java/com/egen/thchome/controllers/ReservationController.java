@@ -1,10 +1,10 @@
 package com.egen.thchome.controllers;
 
-import com.egen.thchome.entity.Menu;
+import com.egen.thchome.entity.Reservation;
 import com.egen.thchome.response.Response;
 import com.egen.thchome.response.ResponseMetadata;
 import com.egen.thchome.response.StatusMessage;
-import com.egen.thchome.service.MenuService;
+import com.egen.thchome.service.ReservationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,109 +14,111 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/menus")
-public class MenuController {
+@RequestMapping(value = "/reservations")
+public class ReservationController {
 
-    MenuService menuService;
+    ReservationService reservationService;
 
     @Autowired
-    public MenuController(MenuService menuService){
-        this.menuService = menuService;
+    public ReservationController(ReservationService reservationService){
+        this.reservationService = reservationService;
     }
 
     @GetMapping(produces = "application/json")
-    @ApiOperation(value  = "Returns a List of all Menus")
+    @ApiOperation(value  = "Returns a List of all Reservations")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<List<Menu>> getAllMenus(){
-        return Response.<List<Menu>>builder()
+    public Response<List<Reservation>> getAllReservations(){
+        return Response.<List<Reservation>>builder()
                 .meta(ResponseMetadata.builder()
                         .statusCode(200)
                         .statusMessage(StatusMessage.SUCCESS.name()).build())
-                .data(menuService.getAllMenus())
+                .data(reservationService.getAllReservations())
                 .build();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    @ApiOperation(value  = "Returns a single Menu given the MenuId")
+    @ApiOperation(value  = "Returns a single Reservation given the ReservationId")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<Menu> getMenuById(@PathVariable("id") String id){
-        return Response.<Menu>builder()
+    public Response<Reservation> getReservationById(@PathVariable("id") String id){
+        return Response.<Reservation>builder()
                 .meta(ResponseMetadata.builder()
                         .statusCode(200)
                         .statusMessage(StatusMessage.SUCCESS.name()).build())
-                .data(menuService.getMenuById(id))
+                .data(reservationService.getReservationById(id))
                 .build();
     }
 
-    @PostMapping( value = "/{storeId}/createMenu", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value  = "Creates Menu")
+    @PostMapping( value = "/{storeId}/createReservation", consumes = "application/json", produces = "application/json")
+    @ApiOperation(value  = "Creates Reservation")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<String> createMenu(@PathVariable("storeId") String storeId, @RequestBody Menu menu){
-        return menuService.createMenu(storeId, menu) == Boolean.TRUE ?
+    public Response<String> createReservation(@PathVariable("storeId") String storeId, @RequestBody Reservation reservation){
+        return reservationService.createReservation(storeId, reservation) == Boolean.TRUE ?
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.SUCCESS.name()).build())
-                        .data("Menu Created")
+                        .data("Reservation Created")
                         .build()
                 :
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.UNKNOWN_INTERNAL_ERROR.name()).build())
-                        .data("Menu Not Created")
+                        .data("Reservation Not Created")
                         .build();
     }
 
     @PutMapping(value = "/update", consumes = "application/json", produces = "application/json")
-    @ApiOperation(value  = "Update Menu")
+    @ApiOperation(value  = "Update Reservation")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<String> updateMenu(@RequestBody Menu menu){
-        return menuService.updateMenu(menu) == Boolean.TRUE ?
+    public Response<String> updateReservation(@RequestBody Reservation reservation){
+        return reservationService.updateReservation(reservation) == Boolean.TRUE ?
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.SUCCESS.name()).build())
-                        .data("Menu Updated")
+                        .data("Reservation Updated")
                         .build()
                 :
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.UNKNOWN_INTERNAL_ERROR.name()).build())
-                        .data("Menu Not Updated")
+                        .data("Reservation Not Updated")
                         .build();
     }
 
-    @PostMapping(value = "/delete/{id}")
-    @ApiOperation(value  = "Delete Menu")
+
+    @PostMapping(value = "/cancel/{id}")
+    @ApiOperation(value  = "Cancel Reservation")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<String> deleteMenu(@PathVariable("id") String id){
-        return menuService.deleteMenu(id) == Boolean.TRUE ?
+    public Response<String> cancelReservation(@PathVariable("id") String id){
+        return reservationService.cancelReservation(id) == Boolean.TRUE ?
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.SUCCESS.name()).build())
-                        .data("Menu Deleted")
+                        .data("Reservation Deleted")
                         .build()
                 :
                 Response.<String>builder()
                         .meta(ResponseMetadata.builder()
                                 .statusCode(200)
                                 .statusMessage(StatusMessage.UNKNOWN_INTERNAL_ERROR.name()).build())
-                        .data("Menu Could not be Deleted")
+                        .data("Reservation Could not be Deleted")
                         .build();
     }
+
 
 
 }

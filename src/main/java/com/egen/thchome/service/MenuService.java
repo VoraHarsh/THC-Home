@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MenuService {
 
-    Boolean createMenu(Menu menu);
+    Boolean createMenu(String storeId, Menu menu);
     Boolean updateMenu(Menu menu);
     Boolean deleteMenu(String id);
     Menu getMenuById(String id);

@@ -2,6 +2,7 @@ package com.egen.thchome.service.impl;
 
 import com.egen.thchome.entity.CustomerOrder;
 import com.egen.thchome.entity.Store;
+import com.egen.thchome.enums.StoreStatus;
 import com.egen.thchome.exception.StoreServiceException;
 import com.egen.thchome.repository.StoreRepository;
 import com.egen.thchome.service.StoreService;
@@ -71,7 +72,8 @@ public class StoreServiceImpl implements StoreService {
                 throw new StoreServiceException("Store not found");
             }
             else{
-                storeRepository.deleteById(id);
+                existingStore.setStoreStatus(StoreStatus.DEACTIVATED);
+                storeRepository.save(existingStore);
                 return true;
             }
         }
