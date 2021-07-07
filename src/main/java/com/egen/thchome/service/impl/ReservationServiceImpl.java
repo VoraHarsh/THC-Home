@@ -10,6 +10,7 @@ import com.egen.thchome.repository.StoreRepository;
 import com.egen.thchome.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -30,9 +31,9 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> getAllReservations() {
+    public List<Reservation> getAllReservations(int from, int to) {
         try {
-            List<Reservation> reservationList = reservationRepository.findAll();
+            List<Reservation> reservationList = reservationRepository.findAll(PageRequest.of(from, to)).toList();
             return reservationList;
         }
         catch (Exception e){

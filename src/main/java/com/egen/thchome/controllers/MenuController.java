@@ -24,17 +24,17 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-    @GetMapping(produces = "application/json")
-    @ApiOperation(value  = "Returns a List of all Menus")
+    @GetMapping(value = "/{from}/{to}", produces = "application/json")
+    @ApiOperation(value  = "Returns a List of all Menus in Range")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<List<Menu>> getAllMenus(){
+    public Response<List<Menu>> getAllMenus(@PathVariable("from") int from, @PathVariable("to") int to){
         return Response.<List<Menu>>builder()
                 .meta(ResponseMetadata.builder()
                         .statusCode(200)
                         .statusMessage(StatusMessage.SUCCESS.name()).build())
-                .data(menuService.getAllMenus())
+                .data(menuService.getAllMenus(from, to))
                 .build();
     }
 

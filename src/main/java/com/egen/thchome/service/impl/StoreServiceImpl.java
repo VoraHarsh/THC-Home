@@ -8,6 +8,8 @@ import com.egen.thchome.repository.StoreRepository;
 import com.egen.thchome.service.StoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -126,6 +128,27 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public List<CustomerOrder> getAllStoresOrdersInRange(String storeId, int from, int to) {
+        try{
+            Pageable pageable = PageRequest.of(from, to);
+            List<CustomerOrder> orderList= storeRepository.findStoreOrdersInRange(storeId, pageable);
+            if(orderList == null){
+                throw new StoreServiceException("Order does not exist");
+            }
+            else{
+                //List<CustomerOrder> orderList= storeRepository.findStoreOrders(storeId);
+                return orderList;
+            }
+        }
+        catch (Exception e){
+            log.error("Error occurred in getting all the Store Orders" + e.getMessage());
+            throw new StoreServiceException(e.getMessage());
+        }
+
+    }
+
+
+    @Override
     public List<CustomerOrder> getStoreOrdersBasedOnTime(String storeId) {
         try{
             Store existingStore = storeRepository.findByStoreId(storeId);
@@ -155,5 +178,15 @@ public class StoreServiceImpl implements StoreService {
         }
     }
 
+    @Override
+    public List<Store> getAllStoresInRange(int from, int to) {
+        try {
+            List<Store> stores = storeRepository.findAll(PageRequest.of(from,to)).toList();
+            return stores;
+
+        } catch (Exception e) {
+            throw new StoreServiceException(e.getMessage());
+        }
+    }
 
 }

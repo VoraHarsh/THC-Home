@@ -7,8 +7,6 @@ import com.egen.thchome.service.InterceptorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -28,8 +26,8 @@ public class InterceptorServiceImpl implements InterceptorService {
     }
 
     @Override
-    public List<Interceptor> getApiExecutionTime(String methodName) {
-        return interceptorRepository.findByMethodNameEndsWith(methodName);
+    public List<Interceptor> getAllApiByMethodName(String methodName) {
+        return interceptorRepository.findByMethodName(methodName);
     }
 
     @Override

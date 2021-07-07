@@ -10,6 +10,7 @@ import com.egen.thchome.repository.StoreRepository;
 import com.egen.thchome.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -104,9 +105,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> getAllMenus() {
+    public List<Menu> getAllMenus(int from, int to) {
         try {
-            List<Menu> menus = menuRepository.findAll();
+            List<Menu> menus = menuRepository.findAll(PageRequest.of(from, to)).toList();
             return menus;
         }
         catch (Exception e){

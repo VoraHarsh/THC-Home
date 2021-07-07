@@ -42,6 +42,20 @@ public class StoreController {
                 .build();
     }
 
+    @GetMapping(value = "/{from}/{to}", produces = "application/json")
+    @ApiOperation(value  = "Returns the list of Stores in Range")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
+            @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
+    })
+    public Response<List<Store>> getAllStoresInRange(@PathVariable("from") int from, @PathVariable("to") int to){
+        return Response.<List<Store>>builder()
+                .meta(ResponseMetadata.builder()
+                        .statusCode(200)
+                        .statusMessage(StatusMessage.SUCCESS.name()).build())
+                .data(storeService.getAllStoresInRange(from, to))
+                .build();
+    }
+
     @GetMapping(value = "/{id}", produces = "application/json")
     @ApiOperation(value  = "Returns a single Store given the StoreId")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
@@ -136,6 +150,20 @@ public class StoreController {
                 .build();
     }
 
+    @GetMapping(value = "/storeOrders/{storeId}/{from}/{to}", produces = "application/json")
+    @ApiOperation(value  = "Returns List of Store Orders in Range given the StoreId")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
+            @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
+    })
+    public Response<List<CustomerOrder>>getStoreOrdersInRange(@PathVariable("storeId") String storeId, @PathVariable int from, @PathVariable int to){
+        return Response.<List<CustomerOrder>>builder()
+                .meta(ResponseMetadata.builder()
+                        .statusCode(200)
+                        .statusMessage(StatusMessage.SUCCESS.name()).build())
+                .data(storeService.getAllStoresOrdersInRange(storeId, from, to))
+                .build();
+    }
+
     @GetMapping(value = "/storeOrders/newOrders/{storeId}", produces = "application/json")
     @ApiOperation(value  = "Returns List of New Store Orders given the StoreId")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
@@ -156,5 +184,8 @@ public class StoreController {
         producerService.sendBatchOrder(customerOrderList);
         return "Order Received";
     }
+
+
+
 
 }

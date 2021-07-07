@@ -24,17 +24,17 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(value = "/{from}/{to}", produces = "application/json")
     @ApiOperation(value  = "Returns a List of all Reservations")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<List<Reservation>> getAllReservations(){
+    public Response<List<Reservation>> getAllReservations(@PathVariable("from") int from,@PathVariable("to") int to){
         return Response.<List<Reservation>>builder()
                 .meta(ResponseMetadata.builder()
                         .statusCode(200)
                         .statusMessage(StatusMessage.SUCCESS.name()).build())
-                .data(reservationService.getAllReservations())
+                .data(reservationService.getAllReservations(from,to))
                 .build();
     }
 

@@ -28,21 +28,21 @@ public class InterceptorController {
         this.interceptorService = interceptorService;
     }
 
-    @GetMapping("/{methodName}")
+    @GetMapping(value = "/{methodName}", produces = "application/json")
     @ApiOperation(value  = "Returns the list of Api Execution Time given the name of method")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")
     })
-    public Response<List<Interceptor>> getApiByName(@PathVariable("methodName") String methodName){
+    public Response<List<Interceptor>> getAllApiByName(@PathVariable("methodName") String methodName){
         return Response.<List<Interceptor>>builder()
                 .meta(ResponseMetadata.builder()
                         .statusCode(200)
                         .statusMessage(StatusMessage.SUCCESS.name()).build())
-                .data(interceptorService.getApiExecutionTime(methodName))
+                .data(interceptorService.getAllApiByMethodName(methodName))
                 .build();
     }
 
-    @GetMapping("/{startTime}/{endTime}")
+    @GetMapping(value = "/{startTime}/{endTime}", produces = "application/json")
     @ApiOperation(value  = "Returns the list of Api Execution Time within Time Interval")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "SUCCESS" ),
             @ApiResponse(code = 400, message = "BAD REQUEST ERROR")

@@ -9,8 +9,7 @@ import java.util.List;
 
 public interface InterceptorRepository extends JpaRepository<Interceptor, String> {
 
-    @Query("SELECT interceptor FROM Interceptor interceptor WHERE interceptor.methodName LIKE %:methodName%")
-    List<Interceptor> findByMethodNameEndsWith(String methodName);
+    List<Interceptor> findByMethodName(String methodName);
 
     @Query("SELECT interceptor FROM Interceptor interceptor WHERE interceptor.startTime BETWEEN :startTime AND :endTime")
     List<Interceptor> findAllInterceptorsWithInInterval(Timestamp startTime, Timestamp endTime);

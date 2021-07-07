@@ -58,9 +58,7 @@ public class StoreServiceInterceptor implements HandlerInterceptor {
             actionName = handlerMethod.getMethod().getName();
         }
 
-        System.out.println(controllerName);
-        System.out.println(actionName);
-
+        interceptor.setControllerName(controllerName);
         interceptor.setMethodName(actionName);
 
         interceptor.setExecutionTime(endTime.getTime() - startTime.getTime());
